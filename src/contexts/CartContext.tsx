@@ -1,4 +1,4 @@
-import { createContext, useEffect, useRef, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { IDefaultProviderProps } from './UserContext';
 import { api } from '../services/api';
@@ -41,12 +41,12 @@ export const CartProvider = ({ children }: IDefaultProviderProps) => {
       : product.name.toLowerCase().includes(search.toLowerCase()) ||
         product.category.toLowerCase().includes(search.toLowerCase())
   );
+  
+  const token = localStorage.getItem('@TOKEN');
 
   useEffect(() => {
     async function loadProducts(): Promise<void> {
       try {
-        const token = localStorage.getItem('@TOKEN');
-
         if (token !== null) {
           const response = await api.get('/products', {
             headers: {
@@ -60,7 +60,7 @@ export const CartProvider = ({ children }: IDefaultProviderProps) => {
       }
     }
     loadProducts();
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     localStorage.setItem('@HamburgueriaKenzie', JSON.stringify(list));

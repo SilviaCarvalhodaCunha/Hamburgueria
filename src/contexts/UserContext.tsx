@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -66,6 +66,17 @@ export const UserProvider = ({children}: IDefaultProviderProps) => {
       toast.error("Algo deu errado em seu login")      
     }
   }
+
+  const autoLogin = () => {
+    const token = localStorage.getItem("@TOKEN")
+    if(token){
+      navigate("/shop")
+    } else {
+      navigate("/")
+    }
+  }
+
+  useEffect(() => { autoLogin() }, [])
 
   const userLogout = () => {
     setUser(null)

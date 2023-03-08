@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
+import { CartProvider } from './contexts/CartContext';
 import LoginPage from './pages/LoginPage';
 import { ProtectedRoutes } from './pages/ProtectedRoutes';
 import RegisterPage from './pages/RegisterPage';
@@ -8,12 +9,19 @@ function Router() {
   return (
     <Routes>
       <Route path='/' element={<LoginPage />} />
-      <Route path='/register' element={<RegisterPage />} />           
-      <Route path='/shop' element={<ProtectedRoutes/>}>
-        <Route index element={<ShopPage />} />
+      <Route path='/register' element={<RegisterPage />} />
+      <Route path='/shop' element={<ProtectedRoutes />}>
+        <Route
+          index
+          element={
+            <CartProvider>
+              <ShopPage />
+            </CartProvider>
+          }
+        />
       </Route>
-    </Routes>    
+    </Routes>
   );
-};
+}
 
 export default Router;
